@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Catálogo Mantecados Navideño | Dulces Selectos</title>
+    <style>
+        /* --- VARIABLES y RESET --- */
+        :root {
+            --color-principal: #a52a2a;
+            --color-secundario: #ffd700;
+            /* CAMBIO 1: Colores de fondo para el tono dorado/cálido de la imagen */
+            --color-fondo-claro: #fcf6e7;
+            /* Un blanco roto cálido */
+            --color-fondo-degradado: #e9d3a7;
+            /* Un tono dorado claro */
+            --color-texto: #333333;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            /* Usamos los nuevos colores cálidos */
+            background: linear-gradient(180deg, var(--color-fondo-claro), var(--color-fondo-degradado));
+            color: var(--color-texto);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            /* Se reduce el padding para hacerlo menos alto */
+            padding: 12px 15px;
+            background: var(--color-principal);
+            color: #ffffff;
+            /* Se reduce el tamaño de fuente */
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            /* Se reduce la sombra para hacerlo menos principal */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            position: relative;
+            top: 0;
+            z-index: 500;
+        }
+
+        header h1 {
+            margin: 0;
+            text-shadow: 0 0 4px var(--color-secundario);
+            /* Se mantiene el tamaño en relación al header (que ya es más pequeño) */
+            font-size: 1em;
+        }
+
+        /* --- CONTENEDOR FLOTANTE DE LA CESTA (NUEVO) --- */
+        .nav-cesta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /* Fondo más limpio y opaco */
+            background: #ffffff;
+            padding: 8px 0;
+            /* Un poco menos de padding */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+            z-index: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- ESTILOS DE CESTA (Moderno y Minimalista) --- */
+
+        #btn-cesta {
+            position: static;
+            /* Botón más largo y prominente */
+            width: 90%;
+            max-width: 400px;
+            padding: 14px 25px;
+            /* Más padding para que parezca una barra de llamada a la acción */
+
+            background: var(--color-principal);
+            /* Color principal del catálogo */
+            color: white;
+            /* Quitamos el borde dorado y la sombra exagerada */
+            border: none;
+
+            border-radius: 8px;
+            /* Bordes ligeramente curvos */
+
+            font-size: 1.1em;
+            font-weight: 600;
+            /* Peso normal para texto de botón */
+            cursor: pointer;
+
+            transition: background-color 0.3s, transform 0.1s;
+            /* Sombra más sutil para el botón */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #btn-cesta:hover {
+            /* Oscurecer el fondo al pasar el ratón */
+            background-color: #8d1c1c;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #contador-cesta {
+            margin-left: 10px;
+            /* Más separación del icono/texto */
+            /* Contador que destaca con el color secundario (Dorado) */
+            background: var(--color-secundario);
+            color: var(--color-principal);
+            padding: 3px 8px;
+            border-radius: 12px;
+            /* Más redondo o estilo pastilla */
+            font-size: 0.8em;
+            /* Quitamos el borde para un look más limpio */
+            border: none;
+            font-weight: 900;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- CATÁLOGO --- */
+        .catalogo {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px 15px;
+            max-width: 1200px;
+            margin: auto;
+            position: relative;
+            z-index: 20;
+        }
+
+        .producto {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+        }
+
+        .producto:hover,
+        .producto:active {
+            transform: scale(0.98);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .producto img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--color-secundario);
+            transition: opacity 0.2s;
+        }
+
+        .info {
+            padding: 12px 10px;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info h3 {
+            margin: 0 0 4px;
+            color: var(--color-principal);
+            font-size: 1.05em;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .info p {
+            margin: 0;
+            font-weight: 700;
+            color: var(--color-secundario);
+            font-size: 1.1em;
+        }
+
+        /* --- NUMERACIÓN DE PRODUCTOS --- */
+        .producto {
+            /* ... (propiedades existentes) */
+            position: relative;
+            /* Esencial para posicionar el número dentro */
+        }
+
+        .numero-producto {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: var(--color-principal);
+            color: white;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 700;
+            z-index: 10;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- POPUPS CORREGIDOS --- */
+        .popup-fondo {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+            transition: opacity 0.3s;
+        }
+
+        .popup-fondo.visible {
+            opacity: 1;
+        }
+
+        .popup {
+            background: var(--color-fondo-claro);
+            border-radius: 10px;
+            /* CAMBIO CLAVE: Reducimos el ancho máximo para evitar que ocupe el 100% en pantallas pequeñas */
+            max-width: 380px;
+            /* Reducido de 95% a un valor fijo para centrar */
+            width: 95%;
+            padding: 25px;
+            /* Reducimos el padding superior y mantenemos el espaciado interno */
+            padding-top: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            border: 3px solid var(--color-secundario);
+            position: relative;
+            /* Mantenemos una altura máxima visible */
+            max-height: 90vh;
+            /* Activamos el desplazamiento solo si el contenido es demasiado alto */
+            overflow-y: auto;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .popup-fondo.visible .popup {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Contenido del pop-up (para el texto que se inyecta) */
+        .popup-content h2 {
+            color: var(--color-principal);
+            margin-top: 0;
+            margin-bottom: 15px;
+            /* CAMBIO CLAVE 1: Reducimos el tamaño del título del producto */
+            font-size: 1.4em;
+            border-bottom: 2px solid var(--color-secundario);
+            padding-bottom: 5px;
+        }
+
+        .popup-content p {
+            margin: 10px 0;
+            /* Ligero ajuste de margen */
+            /* CAMBIO CLAVE 2: Reducimos el tamaño del texto de descripción/precio */
+            font-size: 1em;
+        }
+
+        .popup-content p strong {
+            color: var(--color-principal);
+            font-weight: 600;
+        }
+
+        .popup-content em {
+            display: block;
+            margin-top: 15px;
+            color: #777;
+            /* CAMBIO CLAVE 3: Reducimos el tamaño de la nota/énfasis */
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .cerrar {
+            position: absolute;
+            /* Ajustamos la posición para que no choque con el contenido superior */
+            top: 5px;
+            right: 10px;
+            font-size: 35px;
+            /* Ligeramente más grande y visible */
+            color: var(--color-principal);
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+            z-index: 350;
+            /* Z-Index alto para asegurar que se pueda tocar */
+        }
+
+        .cerrar:hover {
+            color: var(--color-secundario);
+        }
+
+        .btn-comprar {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            /* Reducimos el margen superior del botón */
+            background-color: var(--color-principal);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            /* CAMBIO CLAVE 4: Reducimos el tamaño de la fuente del botón */
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .btn-comprar:hover {
+            background-color: #8d1c1c;
+            transform: translateY(-1px);
+        }
+
+        #datos-cliente-form input,
+        #datos-cliente-form textarea {
+            /* Añadir este estilo global o inline si aún se ven grandes */
+            font-size: 1em !important;
+        }
+
+        /* --- NIEVE FINALIZADA --- */
+        @keyframes caer {
+
+            /* El copo comienza arriba (fuera de pantalla) y visible (opacidad 1) */
+            0% {
+                transform: translateY(-10vh) translateX(0);
+                opacity: 1;
+            }
+
+            /* El copo termina abajo (fuera de pantalla) y se desvanece (opacidad 0.5 - menos desvanecimiento) */
+            100% {
+                transform: translateY(110vh) translateX(5vw);
+                opacity: 0.5;
+            }
+        }
+
+        .nieve {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            /* CAMBIO CLAVE AQUÍ: Aumentamos el z-index */
+            z-index: 50;
+            /* Debe ser mayor que el 20 del header y catálogo */
+        }
+
+        .nieve span {
+            position: absolute;
+            top: -10vh;
+
+            /* --- AJUSTES PARA USAR LA IMAGEN --- */
+            background-image: url('img/copo.png');
+            /* Ruta a tu imagen de copo (PNG) */
+            background-size: cover;
+            /* Asegura que la imagen cubra el tamaño del span */
+            background-repeat: no-repeat;
+
+            /* Eliminamos propiedades innecesarias para la imagen */
+            background-color: transparent;
+            border-radius: 0;
+
+            /* Mantenemos el efecto visual de "luz" */
+            /*box-shadow: 0 0 10px rgba(255, 255, 255, 0.9); */
+
+            opacity: 1;
+            animation: caer linear infinite;
+            /* El tamaño del copo se sigue controlando en JS */
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (min-width: 600px) {
+            .catalogo {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 25px;
+            }
+
+            .producto:hover {
+                transform: translateY(-5px);
+            }
+
+            .producto:active {
+                transform: scale(0.98);
+            }
+
+            .popup {
+                max-width: 450px;
+                padding: 30px;
+                padding-top: 55px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .catalogo {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+                padding: 40px 25px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--color-principal);
+            color: #ffffff;
+            font-size: 0.95em;
+            text-shadow: 0 0 3px var(--color-secundario);
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-cesta">
+        <button id="btn-cesta" onclick="mostrarCesta()">
+            &#128722; <span id="contador-cesta">0</span>
+        </button>
+    </div>
+
+    <header>
+        <h1>&#127877; Catálogo Surtidos Navideños &#127876;</h1>
+    </header>
+
+    <section class="catalogo">
+        <div class="producto" onclick="abrirPopup('1')" data-id="1">
+            <div class="numero-producto">1</div><img src="img/surtido-azul.png" alt="Surtido Especial Azul">
+            <div class="info">
+                <h3>SURTIDO ESPECIAL AZUL</h3>
+                <p>23,70 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('2')" data-id="2">
+            <div class="numero-producto">2</div><img src="img/paquibom.png" alt="PEQUIBOM">
+            <div class="info">
+                <h3>PEQUIBOM</h3>
+                <p>21,20 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('3')" data-id="3">
+            <div class="numero-producto">3</div><img src="img/hojaldreEspecial.png" alt="HOJALDRE ESPECIAL">
+            <div class="info">
+                <h3>HOJALDRE ESPECIAL</h3>
+                <p>13,00 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('4')" data-id="4">
+            <div class="numero-producto">4</div><img src="img/limon.png" alt="MANTECADO DE LIMÓN">
+            <div class="info">
+                <h3>MANTECADO DE LIMÓN</h3>
+                <p>12,00 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('5')" data-id="5">
+            <div class="numero-producto">5</div><img src="img/nupisSurtidas.png" alt="NUPIS SURTIDAS">
+            <div class="info">
+                <h3>NUPIS SURTIDAS</h3>
+                <p>18,00 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('6')" data-id="6">
+            <div class="numero-producto">6</div><img src="img/mantecadoBombom.png" alt="MANTECADO BOMBÓN">
+            <div class="info">
+                <h3>MANTECADO BOMBÓN</h3>
+                <p>18,50 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('7')" data-id="7">
+            <div class="numero-producto">7</div><img src="img/hojaldreSurtidos.png" alt="HOJALDRES SURTIDOS">
+            <div class="info">
+                <h3>HOJALDRES SURTIDOS</h3>
+                <p>15,80 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('8')" data-id="8">
+            <div class="numero-producto">8</div><img src="img/KremyBombon.png" alt="KREMYBOMBÓM">
+            <div class="info">
+                <h3>KREMYBOMBÓM</h3>
+                <p>19,40 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('9')" data-id="9">
+            <div class="numero-producto">9</div><img src="img/bombonesSurtidos.png" alt="BOMBONES SURTIDOS">
+            <div class="info">
+                <h3>BOMBONES SURTIDOS</h3>
+                <p>21,25 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('10')" data-id="10">
+            <div class="numero-producto">10</div><img src="img/bombonesCoco.png" alt="BOMBONES DE COCO">
+            <div class="info">
+                <h3>BOMBONES DE COCO</h3>
+                <p>15,80 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('11')" data-id="11">
+            <div class="numero-producto">11</div><img src="img/surtidoChocolates.png" alt="SURTIDO DE CHOCOLATE">
+            <div class="info">
+                <h3>SURTIDO DE CHOCOLATE</h3>
+                <p>15,70 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('12')" data-id="12">
+            <div class="numero-producto">12</div><img src="img/pequibomSurtido.png" alt="PEQUIBOM SURTIDO">
+            <div class="info">
+                <h3>PEQUIBOM SURTIDO</h3>
+                <p>15,30 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('13')" data-id="13">
+            <div class="numero-producto">13</div><img src="img/surtidoEspecialAzul.png" alt="SURTIDO AZUL GOLD">
+            <div class="info">
+                <h3>SURTIDO AZUL GOLD</h3>
+                <p>28,40 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('14')" data-id="14">
+            <div class="numero-producto">14</div><img src="img/cestaMantecados.png" alt="CESTA MANTECADOS CASEROS">
+            <div class="info">
+                <h3>CESTA MANTECADOS CASEROS</h3>
+                <p>20,00 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('15')" data-id="15">
+            <div class="numero-producto">15</div><img src="img/deliciosasCharitas.png"
+                alt="DELICIOSAS CHARITAS DE ALMENDRA">
+            <div class="info">
+                <h3>DELICIOSAS CHARITAS DE ALMENDRA</h3>
+                <p>17,05 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('16')" data-id="16">
+            <div class="numero-producto">16</div><img src="img/galletasChocolateada.png" alt="GALLETAS CHOCOLATEADAS">
+            <div class="info">
+                <h3>GALLETAS CHOCOLATEADAS</h3>
+                <p>17,25 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('17')" data-id="17">
+            <div class="numero-producto">17</div><img src="img/boteNupis.png" alt="BOTE DE NUPIS BISCUIT BLANCA">
+            <div class="info">
+                <h3>BOTE DE NUPIS BISCUIT BLANCA</h3>
+                <p>17,70 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('18')" data-id="18">
+            <div class="numero-producto">18</div><img src="img/MantecadoAceiteOliva.png"
+                alt="MANTECADOS DE ACEITE DE OLIVA VIRGEN EXTRA Y ALMENDRAS">
+            <div class="info">
+                <h3>MANTECADOS AOV/ALMENDRAS</h3>
+                <p>17,20 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('19')" data-id="19">
+            <div class="numero-producto">19</div><img src="img/almendrasPequenas.png"
+                alt="ALMENDRITAS RELLENAS SURTIDAS">
+            <div class="info">
+                <h3>ALMENDRITAS RELLENAS SURTIDAS</h3>
+                <p>18,70 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('20')" data-id="20">
+            <div class="numero-producto">20</div><img src="img/elfaTravesuras.png"
+                alt="ELFA TRAVESURAS CON PEQUIBOM NUDE">
+            <div class="info">
+                <h3>ELFA TRAVESURAS CON PEQUIBOM</h3>
+                <p>17,00 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('21')" data-id="21">
+            <div class="numero-producto">21</div><img src="img/lataMantecado.png"
+                alt="LATA MANTECADO BOMBÓN BLANCO A MONO">
+            <div class="info">
+                <h3>LATA MANTECADO BOMBÓN BLANCO</h3>
+                <p>20,75 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('22')" data-id="22">
+            <div class="numero-producto">22</div><img src="img/surtidos.png" alt="SURTIDOS SIN AZÚCAR">
+            <div class="info">
+                <h3>SURTIDOS SIN AZÚCAR</h3>
+                <p>16,20 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('23')" data-id="23">
+            <div class="numero-producto">23</div><img src="img/surtidosSin.png" alt="SURTIDO SIN GLUTEN Y SIN LACTOSA">
+            <div class="info">
+                <h3>SURTIDO SIN GLUTEN Y LACTOSA</h3>
+                <p>15,75 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('24')" data-id="24">
+            <div class="numero-producto">24</div><img src="img/cestaTurronesSurtidos.png" alt="CESTA TURRONES SURTIDOS">
+            <div class="info">
+                <h3>CESTA TURRONES SURTIDOS</h3>
+                <p>19,50 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('25')" data-id="25">
+            <div class="numero-producto">25</div><img src="img/estucheSurtidoMazapanes.png"
+                alt="ESTUCHE SURTIDO DE MAZAPANES">
+            <div class="info">
+                <h3>ESTUCHE SURTIDO DE MAZAPANES</h3>
+                <p>14,85 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('26')" data-id="26">
+            <div class="numero-producto">26</div><img src="img/tentacionNegra.png" alt="TENTACIÓN NEGRA">
+            <div class="info">
+                <h3>TENTACIÓN NEGRA</h3>
+                <p>18,20 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('27')" data-id="27">
+            <div class="numero-producto">27</div><img src="img/tentacionBlanca.png" alt="TENTACIÓN BLANCA">
+            <div class="info">
+                <h3>TENTACIÓN BLANCA</h3>
+                <p>18,20 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('28')" data-id="28">
+            <div class="numero-producto">28</div><img src="img/lataChocoroscosSurtidos.png"
+                alt="LATA CHOCOROSCOS SURTIDOS">
+            <div class="info">
+                <h3>LATA CHOCOROSCOS SURTIDOS</h3>
+                <p>16,40 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('29')" data-id="29">
+            <div class="numero-producto">29</div><img src="img/farolilloPolvoronesRellenos.png"
+                alt="FAROLILLO POLVORONES RELLENOS DE CACAO">
+            <div class="info">
+                <h3>POLVORONES RELLENOS DE CACAO</h3>
+                <p>16,50 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('30')" data-id="30">
+            <div class="numero-producto">30</div><img src="img/lataMantecadosMantequilla.png"
+                alt="LATA MANTECADOS DE MANTEQUILLA">
+            <div class="info">
+                <h3>LATA MANTECADOS DE MANTEQUILLA</h3>
+                <p>17,00 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('31')" data-id="31">
+            <div class="numero-producto">31</div><img src="img/calendario.png"
+                alt="CALENDARIO DE ADVIENTO DE CHOCOLATES">
+            <div class="info">
+                <h3>CALENDARIO DE ADVIENTO</h3>
+                <p>18,60 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('32')" data-id="32">
+            <div class="numero-producto">32</div><img src="img/despensa.png" alt="LA DESPENSA DE EL PATRIARCA">
+            <div class="info">
+                <h3>LA DESPENSA DE EL PATRIARCA</h3>
+                <p>22,60 €</p>
+            </div>
+        </div>
+        <div class="producto" onclick="abrirPopup('33')" data-id="33">
+            <div class="numero-producto">33</div><img src="img/cestaPolvoronesAlmendra.png"
+                alt="CESTA POLVORONES DE ALMENDRA SUPREMO">
+            <div class="info">
+                <h3>POLVORONES DE ALMENDRA SUPREMO</h3>
+                <p>16,00 €</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&#169; 2025 Dulces Selectos. Todos los derechos reservados. &#127873;</p>
+    </footer>
+
+    <div class="nieve" id="nieve"></div>
+
+    <div class="popup-fondo" id="popup" onclick="cerrarPopupExterior(event)">
+            <div class="popup" id="popup-modal" onclick="event.stopPropagation()">
+                    <span class="cerrar" onclick="cerrarPopup()">&times;</span>
+                    <div id="contenido-popup" class="popup-content">
+                                    </div>
+                </div>
+    </div>
+
+    <script>
+        // Objeto de datos (sin cambios)
+        const productosData = {
+            "1": {
+                "titulo": "SURTIDO ESPECIAL AZUL",
+                "precio": "23,70 €",
+                "peso": "1.600 grs",
+                "contenido": "17 variedades, incluyendo: Mantecados (Caseros, de Almendra, Canela, Limón, Coco, Chocolate), Bombones, Hojaldre, Roscos de Almendra, Alfajores, Trufas, Pequibom, Nupis y Nupis Biscuit.",
+                "nota": "El surtido más completo y tradicional de 17 variedades. La auténtica tradición de El Patriarca."
+            },
+            "2": {
+                "titulo": "PEQUIBOM",
+                "precio": "21,20 €",
+                "peso": "500 grs",
+                "contenido": "Crujiente barquillo relleno de suave crema de avellanas y bañado en una dulce capa de chocolate con leche. (Producto Único)",
+                "nota": "Un producto único y crujiente: barquillo relleno de crema de avellanas con auténtico chocolate con leche."
+            },
+            "3": {
+                "titulo": "HOJALDRE ESPECIAL",
+                "precio": "13,00 €",
+                "peso": "500 grs",
+                "contenido": "Finas capas de Hojaldre envuelto en una dulce capa de azúcar glasé.",
+                "nota": "Finas capas de hojaldre crujiente con un toque de azúcar glasé. Un clásico ligero."
+            },
+            "4": {
+                "titulo": "MANTECADO DE LIMÓN",
+                "precio": "12,00 €",
+                "peso": "600 grs",
+                "contenido": "Ricos Mantecados con auténtico sabor a limón.",
+                "nota": "Mantecados con auténtico sabor a limón, frescos y tradicionales. Ideal para los amantes de los cítricos."
+            },
+            "5": {
+                "titulo": "NUPIS SURTIDAS",
+                "precio": "18,00 €",
+                "peso": "400 grs",
+                "contenido": "3 sabores: Nupis (chocolate con avellanas y cereales), Nupis Biscuit (chocolate con almendras y galletas) y Nupis K (chocolate con cacahuetes).",
+                "nota": "Surtido de tres especialidades de chocolate: avellanas, almendras/galletas y cacahuetes. ¡Irresistibles!"
+            },
+            "6": {
+                "titulo": "MANTECADO BOMBÓN",
+                "precio": "18,50 €",
+                "peso": "850 grs",
+                "contenido": "Mantecado especial elaborado con el mejor cacao, relleno de almendras seleccionadas y recubierto de un exquisito chocolate.",
+                "nota": "El mantecado especial de El Patriarca: cacao con almendras y bañado en exquisito chocolate. 'El mejor mantecado del mundo'."
+            },
+            "7": {
+                "titulo": "HOJALDRES SURTIDOS",
+                "precio": "15,80 €",
+                "peso": "450 grs",
+                "contenido": "4 sabores: Hojaldre especial, Hojaldre relleno de crema, Hojaldre relleno de crema de chocolate y Hojaldre relleno de cabello de ángel.",
+                "nota": "Variedad de 4 sabores de hojaldre: especial, crema, chocolate y cabello de ángel. Perfectos para compartir."
+            },
+            "8": {
+                "titulo": "KREMYBOMBÓM",
+                "precio": "19,40 €",
+                "peso": "700 grs",
+                "contenido": "Deliciosas barritas de Chocolate con un cremoso corazón de Avellana.",
+                "nota": "Barritas de chocolate con un cremoso corazón de avellana. Un sabor dulce e irresistible para despertar los sentidos."
+            },
+            "9": {
+                "titulo": "BOMBONES SURTIDOS",
+                "precio": "21,25 €",
+                "peso": "450 grs",
+                "contenido": "7 variedades: Bombón cremoso relleno de Almendras, Bombón con Avellana, Bombón relleno de 'Crema Catalana', Bombón arroz crujiente con crema de avellana/chocolate blanco, Bombón relleno de 'Crema de avellana' y Bombón moca.",
+                "nota": "Caja con 7 variedades de bombones surtidos, incluyendo almendra, avellana, crema catalana y moca. El lujo del chocolate."
+            },
+            "10": {
+                "titulo": "BOMBONES DE COCO",
+                "precio": "15,80 €",
+                "peso": "500 grs",
+                "contenido": "Exquisitas bolas de coco bañadas con chocolate negro.",
+                "nota": "Exquisitas bolas de coco con chocolate negro puro. Las mejores sin lugar a dudas."
+            },
+            "11": {
+                "titulo": "SURTIDO DE CHOCOLATE",
+                "precio": "15,70 €",
+                "peso": "500 grs",
+                "contenido": "Excelente selección de nuestros mejores productos de chocolate.",
+                "nota": "Selección de los mejores productos de chocolate de la marca. Perfecto para los verdaderos 'chocoadictos'."
+            },
+            "12": {
+                "titulo": "PEQUIBOM SURTIDO",
+                "precio": "15,30 €",
+                "peso": "300 grs",
+                "contenido": "3 sabores: Chocolate con leche, Chocolate blanco y Chocolate negro.",
+                "nota": "El Pequibom de siempre, ahora en 3 sabores: chocolate con leche, blanco y negro. Ideal para degustar la variedad."
+            },
+            "13": {
+                "titulo": "SURTIDO AZUL GOLD",
+                "precio": "28,40 €",
+                "peso": "2.000 grs",
+                "contenido": "19 variedades: Mantecados (Caseros, de Almendra, Canela, Limón, Coco, Chocolate, Bombón, Bombón Crujiente), Bombones, Hojaldre, Roscos de Almendra, Bombones de Coco, Alfajores, Trufas, Pequibom, Nupis, Nupis Biscuit, Chocoroscos y Pequibom Dark.",
+                "nota": "La selección premium de 19 variedades, con 2 kg de peso neto. Incluye Chocoroscos y Pequibom Dark."
+            },
+            "14": {
+                "titulo": "CESTA MANTECADOS CASEROS",
+                "precio": "20,00 €",
+                "peso": "1.000 grs",
+                "contenido": "Los auténticos Mantecados caseros (sabor a ajonjolí), presentados en una preciosa cesta de madera de bambú forrada en tela.",
+                "nota": "Mantecados caseros genuinos con sabor a ajonjolí. Presentación en cesta de bambú, perfecta para regalo. (Medidas: 19,50 x 19,50 x 10,50 cm)"
+            },
+            "15": {
+                "titulo": "DELICIOSAS CHARITAS DE ALMENDRA",
+                "precio": "17,05 €",
+                "peso": "275 grs",
+                "contenido": "Delicioso bocadito de almendra molida con un toque de canela para el más selecto paladar.",
+                "nota": "Delicado pastelillo de almendra molida con un toque de canela. Un bocado selecto y exquisito."
+            },
+            "16": {
+                "titulo": "GALLETAS CHOCOLATEADAS",
+                "precio": "17,25 €",
+                "peso": "250 grs",
+                "contenido": "Crujientes galletas de barquillo bañadas en nuestro delicioso chocolate con leche.",
+                "nota": "Crujientes galletas de barquillo bañadas en delicioso chocolate con leche."
+            },
+            "17": {
+                "titulo": "BOTE DE NUPIS BISCUIT BLANCA",
+                "precio": "17,70 €",
+                "peso": "500 grs",
+                "contenido": "Crujiente especialidad de chocolate blanco con almendras y galletas.",
+                "nota": "Especialidad crujiente de chocolate blanco con almendras y galletas, presentada en un bote ideal. (Medidas: 16 x 11,50 cm)"
+            },
+            "18": {
+                "titulo": "MANTECADOS DE ACEITE DE OLIVA VIRGEN EXTRA Y ALMENDRAS",
+                "precio": "17,20 €",
+                "peso": "600 grs",
+                "contenido": "Mantecados de Aceite de Oliva Virgen Extra y Almendras, un producto típico de la auténtica y sana dieta Mediterránea.",
+                "nota": "Mantecados elaborados con AOV/E y almendras, un producto que se alinea con la dieta Mediterránea."
+            },
+            "19": {
+                "titulo": "ALMENDRITAS RELLENAS SURTIDAS",
+                "precio": "18,70 €",
+                "peso": "550 grs",
+                "contenido": "3 variedades de crujientes obleas rellenas de turrón: Turrón Blando de Almendras, Turrón Blando de Cacahuete y Turrón de Chocolate.",
+                "nota": "3 delicadas variedades de obleas crujientes rellenas de turrón (almendra, cacahuete y chocolate)."
+            },
+            "20": {
+                "titulo": "ELFA TRAVESURAS CON PEQUIBOM NUDE",
+                "precio": "17,00 €",
+                "peso": "120 grs",
+                "contenido": "Incluye la Elfa navideña y nuestro nuevo Pequibom Nude.",
+                "nota": "Edición especial con la figura de la Elfa y el nuevo Pequibom Nude. ¡Diversión y dulzura garantizadas! (Medidas Elfa: 41,50 x 10 cm)"
+            },
+            "21": {
+                "titulo": "LATA MANTECADO BOMBÓN BLANCO A MOÑO",
+                "precio": "20,75 €",
+                "peso": "700 grs",
+                "contenido": "Nuestro cremoso y delicioso mantecado bombón, ahora bañado con chocolate blanco y liado a moño de forma tradicional.",
+                "nota": "El delicioso Mantecado Bombón, bañado en chocolate blanco y liado 'a moño' de forma tradicional. Presentado en lata. (Medidas: 15 x 10 cm)"
+            },
+            "22": {
+                "titulo": "SURTIDO SIN AZÚCAR",
+                "precio": "16,20 €",
+                "peso": "700 grs",
+                "contenido": "9 variedades 'sin azúcar': Mantecados (AOV/Almendras, Limón, Casero, Almendra, Cacao), Mazapán, Hojaldre, Roscos de almendra y Bombones 'sin azúcar añadido'.",
+                "nota": "Una dulce selección de 9 tentaciones navideñas sin azúcar. Sabor tradicional para cuidarse."
+            },
+            "23": {
+                "titulo": "SURTIDO SIN GLUTEN Y SIN LACTOSA",
+                "precio": "15,75 €",
+                "peso": "400 grs",
+                "contenido": "4 variedades SIN GLUTEN Y SIN LACTOSA: Mantecados (Limón, Cacao, Canela) y Roscos de Vino.",
+                "nota": "Surtido de 4 variedades apto para personas con intolerancia al gluten y a la lactosa."
+            },
+            "24": {
+                "titulo": "CESTA TURRONES SURTIDOS",
+                "precio": "19,50 €",
+                "peso": "450 grs",
+                "contenido": "5 variedades: Turronchoc (Almendra y chocolate), Turrón Blando, Turrón Duro Almendra, Guirlache (Cacahuete) y Turrón Duro Cacahuete.",
+                "nota": "Cesta con 5 variedades de turrones surtidos, incluyendo Turrón Blando, Duro y Turronchoc. (Medidas: 20,50 x 12,50 x 10,50 cm)"
+            },
+            "25": {
+                "titulo": "ESTUCHE SURTIDO DE MAZAPANES",
+                "precio": "14,85 €",
+                "peso": "250 grs",
+                "contenido": "5 variedades de jugosos y variados Mazapanes: Huesitos de Santo (rellenos de Yema), Mazapán tipo Soto, Piñonate (recubierto de Piñones), Figuritas de Mazapán y Chocoalmendra (bañado en Chocolate).",
+                "nota": "5 variedades de mazapanes, incluyendo Huesitos de Santo, Piñonate y Chocoalmendra. La mejor repostería navideña."
+            },
+            "26": {
+                "titulo": "TENTACIÓN NEGRA",
+                "precio": "18,20 €",
+                "peso": "475 grs",
+                "contenido": "4 variedades de CHOCOLATE NEGRO: Pequibom Dark, Trufas, Mantecado Bombón y Nupis Biscuit Negra.",
+                "nota": "El Mix de Tentaciones en su versión negra: 4 variedades de chocolate oscuro, incluyendo Trufas y Pequibom Dark."
+            },
+            "27": {
+                "titulo": "TENTACIÓN BLANCA",
+                "precio": "18,20 €",
+                "peso": "475 grs",
+                "contenido": "4 variedades de CHOCOLATE BLANCO: Pequibom Blanco, Mantecado Bombón Blanco, Chocorosco Blanco y Nupis Biscuit Blanca.",
+                "nota": "El Mix de Tentaciones en su versión blanca: 4 variedades de chocolate claro, como Pequibom Blanco y Chocorosco Blanco."
+            },
+            "28": {
+                "titulo": "LATA CHOCOROSCOS SURTIDOS",
+                "precio": "16,40 €",
+                "peso": "400 grs",
+                "contenido": "Surtido de exquisitos y tradicionales Mini Roscos de Vino y Almendras, bañados en Chocolate Negro o en Chocolate Blanco.",
+                "nota": "Mini Roscos de Vino y Almendras bañados en Chocolate Negro o Blanco. Presentado en una lata de diseño floral. (Medidas: 7,30 x 11,00 x 10,50 cm)"
+            },
+            "29": {
+                "titulo": "FAROLILLO POLVORONES RELLENOS DE CACAO",
+                "precio": "16,50 €",
+                "peso": "500 grs",
+                "contenido": "Nuestro nuevo Polvorón: la tradición se rinde a la irresistible cremosidad del cacao.",
+                "nota": "Nuevo Polvorón relleno de una irresistible crema de cacao. Presentado en un elegante farolillo metálico. (Medidas: 11,50 x 11,50 x 18,50 cm)"
+            },
+            "30": {
+                "titulo": "LATA MANTECADOS DE MANTEQUILLA",
+                "precio": "17,00 €",
+                "peso": "350 grs",
+                "contenido": "Mantecados de Mantequilla. Disfruta de la suave y cremosa textura.",
+                "nota": "Suave y cremosa textura en un Mantecado de Mantequilla. Presentación en lata, un clásico delicado."
+            },
+            "31": {
+                "titulo": "CALENDARIO DE ADVIENTO DE CHOCOLATES",
+                "precio": "18,60 €",
+                "peso": "400 grs",
+                "contenido": "24 variedades de chocolate. Calendario de cuenta atrás desde el 1 de diciembre hasta el 24 de diciembre.",
+                "nota": "24 variedades de exquisitos productos de chocolate para endulzar la cuenta atrás hasta Navidad. (Medidas: 42,80 x 24,50 x 1,50 cm)"
+            },
+            "32": {
+                "titulo": "LA DESPENSA DE EL PATRIARCA (EDICIÓN LIMITADA)",
+                "precio": "22,60 €",
+                "peso": "1.000 grs",
+                "contenido": "10 variedades: Mantecados (Canela, Limón, Coco, Chocolate, Bombón Crujiente, Bombón), Roscos de almendra, Alfajores de almendra, Hojaldre especial y Turroncillo duro.",
+                "nota": "Lata de Edición Limitada con un surtido tradicional de 10 variedades. 'Pasa el tiempo pero los sabores permanecen'. (Medidas: 27,00 x 20,00 x 10,00 cm)"
+            },
+            "33": {
+                "titulo": "CESTA POLVORONES DE ALMENDRA SUPREMO",
+                "precio": "16,00 €",
+                "peso": "600 grs",
+                "contenido": "Nuestro tradicional Polvorón elaborado con más almendra que nunca.",
+                "nota": "Polvorón tradicional de calidad superior elaborado con un alto contenido de almendra. (Medidas: 19,20 x 26,10 x 5,00 cm)"
+            },
+            "34": {
+                "titulo": "LOTE SELECCIÓN",
+                "precio": "72,00 €",
+                "peso": "3.950 grs",
+                "contenido": "Compuesto por: 1 Estuche Surtidos Azul (1.600 grs), 1 Estuche de Bombones Surtidos (450 grs), 1 Estuche Pequibom (300 grs), 1 Bolsa Mantecado de Limón (500 grs), 1 Bolsa Mantecado Bombón (500 grs), 1 Bolsa Mantecado de Almendra (500 grs) y 1 Lata de Figuritas de Mazapán (100 grs).",
+                "nota": "El regalo perfecto para estas Navidades. Lote compuesto por una selección de 7 de nuestros mejores productos. (Medidas: 52,00 x 37,00 x 7,50 cm)"
+            }
+        };
+
+        /* --- NIEVE (JavaScript) --- */
+        const contenedorNieve = document.getElementById('nieve');
+        for (let i = 0; i < 35; i++) {
+            const copo = document.createElement('span');
+            const size = Math.random() * 45 + 5 + 'px';
+            copo.style.width = size;
+            copo.style.height = size;
+            copo.style.left = Math.random() * 100 + 'vw';
+            copo.style.animationDuration = Math.random() * 8 + 6 + 's';
+            copo.style.animationDelay = Math.random() * 6 + 's';
+            contenedorNieve.appendChild(copo);
+        }
+
+        /* --- POPUPS Y GESTIÓN DE CESTA --- */
+        const popupFondo = document.getElementById('popup');
+        const contenidoPopup = document.getElementById('contenido-popup');
+
+        // Usamos un objeto para gestionar la cesta si quieres agrupar cantidades (opcional), 
+        // pero mantendremos el array simple para no tocar más código:
+        let cesta = []; // Array global para almacenar los productos
+
+        // --- FUNCIONES DE CESTA ---
+
+        function calcularTotal() {
+            let total = 0;
+            cesta.forEach(item => {
+                total += item.precio;
+            });
+            // Devuelve el total con dos decimales, reemplazando el punto por coma.
+            return total.toFixed(2).replace('.', ',');
+        }
+
+        function actualizarContadorCesta() {
+            document.getElementById('contador-cesta').textContent = cesta.length;
+        }
+
+        function añadirACesta(id) {
+            const data = productosData[id];
+
+            if (!data) return;
+
+            // Extraer el precio y convertirlo a número
+            const precioNumerico = parseFloat(data.precio.replace(' €', '').replace(',', '.'));
+
+            cesta.push({
+                id: id,
+                titulo: data.titulo,
+                precio: precioNumerico, // Guardamos el precio como número
+                precioFormato: data.precio // Guardamos el precio original para mostrar
+            });
+
+            actualizarContadorCesta();
+            cerrarPopup();
+        }
+
+        function vaciarCesta() {
+            cesta = [];
+            actualizarContadorCesta();
+            alert("La cesta ha sido vaciada.");
+            cerrarPopup();
+        }
+
+        // --- FUNCIONES DE POPUP ---
+
+        window.addEventListener('popstate', function (event) {
+            const popupAbierto = popupFondo.classList.contains('visible');
+
+            // Si el pop-up estaba abierto cuando se hizo clic en Atrás, lo cerramos.
+            if (popupAbierto) {
+                cerrarPopup();
+                // Si no hacemos pushState aquí, el popstate se ejecutaría de nuevo 
+                // y sí que haría retroceder la página.
+                // Volvemos a añadir el estado para "neutralizar" el botón de Atrás en ese momento.
+                history.pushState(null, null, location.href);
+            }
+        });
+
+        function abrirPopup(id) {
+            const data = productosData[id];
+
+            if (!data) return;
+
+            history.pushState({ popup: id }, null, location.href);
+
+            // Se inyecta el contenido con la función añadirACesta
+            const html = `
+        <h2>${data.titulo}</h2>
+        <p><strong>Precio:</strong> ${data.precio}</p>
+        <p><strong>Peso neto:</strong> ${data.peso}</p>
+        <p><strong>Contenido:</strong> ${data.contenido}</p>
+        <em>${data.nota}</em>
+        <button class="btn-comprar" onclick="añadirACesta('${id}')">Añadir al Cesto</button>
+    `;
+
+            contenidoPopup.innerHTML = html;
+            popupFondo.style.display = 'flex';
+            setTimeout(() => {
+                popupFondo.classList.add('visible');
+            }, 10);
+        }
+
+        function cerrarPopup() {
+            popupFondo.classList.remove('visible');
+            setTimeout(() => {
+                popupFondo.style.display = 'none';
+            }, 300);
+
+            if (history.state && history.state.popup) {
+                history.back(); // Vuelve al estado anterior (que no tenía pop-up)
+            }
+        }
+
+        function cerrarPopupExterior(e) {
+            if (e.target.id === 'popup') cerrarPopup();
+        }
+
+        // --- FUNCIONES DE CHECKOUT ---
+
+        // --- FUNCIONES DE CHECKOUT (NUEVAS) ---
+
+        function mostrarCesta() {
+            const popupContent = document.getElementById('contenido-popup');
+            const popupFondo = document.getElementById('popup');
+
+            if (cesta.length === 0) {
+                popupContent.innerHTML = '<h2>Cesta Vacía</h2><p>Añade algunos productos a tu pedido.</p>';
+                popupFondo.style.display = 'flex';
+                setTimeout(() => popupFondo.classList.add('visible'), 10);
+                return;
+            }
+
+            // 1. Crear el resumen visual de la cesta
+            let htmlCesta = '<h2>Tu Pedido:</h2><ul>';
+            let total = 0;
+
+            cesta.forEach((item, index) => {
+                htmlCesta += `
+            <li>
+                ${item.titulo} - ${item.precioFormato} 
+                <button onclick="eliminarItem(${index})" style="float:right; background:none; border:none; color:red; cursor:pointer;">&times;</button>
+            </li>
+        `;
+                total += item.precio;
+            });
+
+            htmlCesta += `</ul><h3>Total: ${total.toFixed(2).replace('.', ',')} €</h3>`;
+
+            // 2. AÑADIR LOS CAMPOS DE DATOS DEL CLIENTE
+            htmlCesta += `
+        <div id="datos-cliente-container">
+            <h3>Datos de Contacto y Envío</h3>
+            <label for="nombre">Nombre completo *</label>
+            <input type="text" id="nombre" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="telefono">Número de teléfono *</label>
+            <input type="tel" id="telefono" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="direccion">Dirección y Notas *</label>
+            <textarea id="direccion" rows="3" required style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+
+            <p style="font-size: 0.9em; color: #8d1c1c;">* Campos obligatorios para procesar el pedido.</p>
+        </div>
+    `;
+
+            // 3. Botón de Enviar
+            htmlCesta += `<button class="btn-comprar" onclick="enviarPedidoEmail()">ENVIAR PEDIDO AHORA</button>`;
+
+            // 4. Mostrar el pop-up
+            popupContent.innerHTML = htmlCesta;
+            popupFondo.style.display = 'flex';
+            setTimeout(() => popupFondo.classList.add('visible'), 10);
+        }
+
+        // --- FUNCIÓN DE CHECKOUT CON GOOGLE APPS SCRIPT ---
+
+        function enviarPedidoEmail() {
+            if (cesta.length === 0) return;
+
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const direccion = document.getElementById('direccion').value;
+
+            if (!nombre || !telefono || !direccion) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+
+            let totalNumericoPuro = 0;
+            cesta.forEach(item => totalNumericoPuro += item.precio);
+            const totalGSHEET = totalNumericoPuro.toFixed(2);
+
+            let resumenTexto = "--- RESUMEN DEL PEDIDO ---\n";
+            cesta.forEach(item => {
+                resumenTexto += `- ${item.titulo} (${item.precioFormato})\n`;
+            });
+            resumenTexto += `\nTOTAL: ${totalGSHEET} €`;
+
+            const URL_DEL_SCRIPT = 'https://script.google.com/macros/s/AKfycbyU4kXQcm5EW58sirhFKB3qsry3pmCqUDxAWQYGRC-Eu3uPQ4o2gez1sY6gLsEHCQMe4A/exec';
+
+            // 🚀 Usa JSON y no-cors OFF, pero con try/catch para fallback
+            fetch(URL_DEL_SCRIPT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre,
+                    telefono,
+                    direccion,
+                    resumenTexto,
+                    totalGSheet: totalGSHEET
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert("✅ Pedido enviado correctamente.");
+                        vaciarCesta();
+                        cerrarPopup();
+                    } else {
+                        alert("❌ Error del servidor: " + data.message);
+                    }
+                })
+                .catch(err => {
+                    // fallback silencioso en caso de CORS
+                    console.warn("CORS bloqueado, intentando modo no-cors...");
+                    fetch(URL_DEL_SCRIPT, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            nombre,
+                            telefono,
+                            direccion,
+                            resumenTexto,
+                            totalGSheet: totalGSHEET
+                        })
+                    });
+                    alert("✅ Pedido enviado (sin confirmar respuesta). Verifica en tu Google Sheet.");
+                    vaciarCesta();
+                    cerrarPopup();
+                });
+        }
+
+
+    </script>
+</body>
+
+</html>
