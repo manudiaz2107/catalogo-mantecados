@@ -237,11 +237,12 @@
             background: var(--color-fondo-claro);
             border-radius: 10px;
             /* CAMBIO CLAVE: Reducimos el ancho máximo para evitar que ocupe el 100% en pantallas pequeñas */
-            max-width: 380px; /* Reducido de 95% a un valor fijo para centrar */
+            max-width: 380px;
+            /* Reducido de 95% a un valor fijo para centrar */
             width: 95%;
             padding: 25px;
             /* Reducimos el padding superior y mantenemos el espaciado interno */
-            padding-top: 25px; 
+            padding-top: 25px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             text-align: left;
             border: 3px solid var(--color-secundario);
@@ -249,7 +250,7 @@
             /* Mantenemos una altura máxima visible */
             max-height: 90vh;
             /* Activamos el desplazamiento solo si el contenido es demasiado alto */
-            overflow-y: auto; 
+            overflow-y: auto;
             transform: scale(0.9);
             opacity: 0;
             transition: transform 0.3s ease-out, opacity 0.3s ease-out;
@@ -266,15 +267,16 @@
             margin-top: 0;
             margin-bottom: 15px;
             /* CAMBIO CLAVE 1: Reducimos el tamaño del título del producto */
-            font-size: 1.4em; 
+            font-size: 1.4em;
             border-bottom: 2px solid var(--color-secundario);
             padding-bottom: 5px;
         }
 
         .popup-content p {
-            margin: 10px 0; /* Ligero ajuste de margen */
+            margin: 10px 0;
+            /* Ligero ajuste de margen */
             /* CAMBIO CLAVE 2: Reducimos el tamaño del texto de descripción/precio */
-            font-size: 1em; 
+            font-size: 1em;
         }
 
         .popup-content p strong {
@@ -287,21 +289,23 @@
             margin-top: 15px;
             color: #777;
             /* CAMBIO CLAVE 3: Reducimos el tamaño de la nota/énfasis */
-            font-size: 0.9em; 
+            font-size: 0.9em;
             font-style: italic;
         }
 
         .cerrar {
             position: absolute;
             /* Ajustamos la posición para que no choque con el contenido superior */
-            top: 5px; 
+            top: 5px;
             right: 10px;
-            font-size: 35px; /* Ligeramente más grande y visible */
+            font-size: 35px;
+            /* Ligeramente más grande y visible */
             color: var(--color-principal);
             cursor: pointer;
             line-height: 1;
             transition: color 0.2s;
-            z-index: 350; /* Z-Index alto para asegurar que se pueda tocar */
+            z-index: 350;
+            /* Z-Index alto para asegurar que se pueda tocar */
         }
 
         .cerrar:hover {
@@ -312,13 +316,14 @@
             display: block;
             width: 100%;
             padding: 12px;
-            margin-top: 15px; /* Reducimos el margen superior del botón */
+            margin-top: 15px;
+            /* Reducimos el margen superior del botón */
             background-color: var(--color-principal);
             color: white;
             border: none;
             border-radius: 8px;
             /* CAMBIO CLAVE 4: Reducimos el tamaño de la fuente del botón */
-            font-size: 1.1em; 
+            font-size: 1.1em;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.1s;
             text-transform: uppercase;
@@ -330,10 +335,10 @@
             transform: translateY(-1px);
         }
 
-        #datos-cliente-form input, 
+        #datos-cliente-form input,
         #datos-cliente-form textarea {
             /* Añadir este estilo global o inline si aún se ven grandes */
-            font-size: 1em !important; 
+            font-size: 1em !important;
         }
 
         /* --- NIEVE FINALIZADA --- */
@@ -695,11 +700,11 @@
     <div class="nieve" id="nieve"></div>
 
     <div class="popup-fondo" id="popup" onclick="cerrarPopupExterior(event)">
-        <div class="popup" id="popup-modal" onclick="event.stopPropagation()">
-            <span class="cerrar" onclick="cerrarPopup()">&times;</span>
-            <div id="contenido-popup" class="popup-content">
-            </div>
-        </div>
+            <div class="popup" id="popup-modal" onclick="event.stopPropagation()">
+                    <span class="cerrar" onclick="cerrarPopup()">&times;</span>
+                    <div id="contenido-popup" class="popup-content">
+                                    </div>
+                </div>
     </div>
 
     <script>
@@ -1010,17 +1015,17 @@
         // --- FUNCIONES DE POPUP ---
 
         window.addEventListener('popstate', function (event) {
-    const popupAbierto = popupFondo.classList.contains('visible');
-    
-    // Si el pop-up estaba abierto cuando se hizo clic en Atrás, lo cerramos.
-    if (popupAbierto) {
-        cerrarPopup();
-        // Si no hacemos pushState aquí, el popstate se ejecutaría de nuevo 
-        // y sí que haría retroceder la página.
-        // Volvemos a añadir el estado para "neutralizar" el botón de Atrás en ese momento.
-        history.pushState(null, null, location.href);
-    }
-});
+            const popupAbierto = popupFondo.classList.contains('visible');
+
+            // Si el pop-up estaba abierto cuando se hizo clic en Atrás, lo cerramos.
+            if (popupAbierto) {
+                cerrarPopup();
+                // Si no hacemos pushState aquí, el popstate se ejecutaría de nuevo 
+                // y sí que haría retroceder la página.
+                // Volvemos a añadir el estado para "neutralizar" el botón de Atrás en ese momento.
+                history.pushState(null, null, location.href);
+            }
+        });
 
         function abrirPopup(id) {
             const data = productosData[id];
@@ -1053,8 +1058,8 @@
             }, 300);
 
             if (history.state && history.state.popup) {
-        history.back(); // Vuelve al estado anterior (que no tenía pop-up)
-    }
+                history.back(); // Vuelve al estado anterior (que no tenía pop-up)
+            }
         }
 
         function cerrarPopupExterior(e) {
@@ -1066,91 +1071,127 @@
         // --- FUNCIONES DE CHECKOUT (NUEVAS) ---
 
         function mostrarCesta() {
+            const popupContent = document.getElementById('contenido-popup');
+            const popupFondo = document.getElementById('popup');
+
             if (cesta.length === 0) {
-                alert("Tu cesta de compra está vacía. ¡Añade algunos dulces!");
+                popupContent.innerHTML = '<h2>Cesta Vacía</h2><p>Añade algunos productos a tu pedido.</p>';
+                popupFondo.style.display = 'flex';
+                setTimeout(() => popupFondo.classList.add('visible'), 10);
                 return;
             }
 
-            let itemsHTML = '<ul style="list-style-type: disc; padding-left: 20px;">';
-            cesta.forEach((item, index) => {
-                itemsHTML += `<li>${item.titulo} - ${item.precioFormato}</li>`;
-            });
-            itemsHTML += '</ul>';
+            // 1. Crear el resumen visual de la cesta
+            let htmlCesta = '<h2>Tu Pedido:</h2><ul>';
+            let total = 0;
 
-            const contenido = `
-        <h2>&#128722; 1. Resumen y Datos de Envío</h2>
-        ${itemsHTML}
-        <p><strong>TOTAL A PAGAR: ${calcularTotal()} €</strong></p>
-        
-        <hr style="border-top: 1px solid #ddd; margin: 20px 0;">
-        
-        <h3 style="color: var(--color-principal); margin-top: 0;">2. Introduce tus datos:</h3>
-        
-        <form id="datos-cliente-form">
-            <input type="text" id="nombre" placeholder="Nombre Completo" required 
-                   style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <input type="tel" id="telefono" placeholder="Teléfono de Contacto" required
-                   style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <textarea id="direccion" placeholder="Dirección de Envío y Notas Adicionales" required 
-                      style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
-        </form>
-        <button class="btn-comprar" onclick="enviarPedidoEmail()">
-            &#9993; Enviar Pedido por Email
-        </button>
-        <button class="btn-comprar" style="margin-top: 5px; background-color: #777;" onclick="vaciarCesta()">Vaciar Cesta</button>
+            cesta.forEach((item, index) => {
+                htmlCesta += `
+            <li>
+                ${item.titulo} - ${item.precioFormato} 
+                <button onclick="eliminarItem(${index})" style="float:right; background:none; border:none; color:red; cursor:pointer;">&times;</button>
+            </li>
+        `;
+                total += item.precio;
+            });
+
+            htmlCesta += `</ul><h3>Total: ${total.toFixed(2).replace('.', ',')} €</h3>`;
+
+            // 2. AÑADIR LOS CAMPOS DE DATOS DEL CLIENTE
+            htmlCesta += `
+        <div id="datos-cliente-container">
+            <h3>Datos de Contacto y Envío</h3>
+            <label for="nombre">Nombre completo *</label>
+            <input type="text" id="nombre" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="telefono">Número de teléfono *</label>
+            <input type="tel" id="telefono" required style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="direccion">Dirección y Notas *</label>
+            <textarea id="direccion" rows="3" required style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+
+            <p style="font-size: 0.9em; color: #8d1c1c;">* Campos obligatorios para procesar el pedido.</p>
+        </div>
     `;
 
-            contenidoPopup.innerHTML = contenido;
+            // 3. Botón de Enviar
+            htmlCesta += `<button class="btn-comprar" onclick="enviarPedidoEmail()">ENVIAR PEDIDO AHORA</button>`;
+
+            // 4. Mostrar el pop-up
+            popupContent.innerHTML = htmlCesta;
             popupFondo.style.display = 'flex';
-            setTimeout(() => {
-                popupFondo.classList.add('visible');
-            }, 10);
+            setTimeout(() => popupFondo.classList.add('visible'), 10);
         }
 
+        // --- FUNCIÓN DE CHECKOUT CON GOOGLE APPS SCRIPT ---
 
         function enviarPedidoEmail() {
             if (cesta.length === 0) return;
 
-            // 1. Obtener los datos del formulario (la información que pediste antes)
             const nombre = document.getElementById('nombre').value;
             const telefono = document.getElementById('telefono').value;
             const direccion = document.getElementById('direccion').value;
 
-            // 2. Validar que los campos requeridos estén llenos
             if (!nombre || !telefono || !direccion) {
-                alert("Por favor, completa tu Nombre, Teléfono y Dirección para poder enviar el pedido.");
+                alert("Por favor, completa todos los campos.");
                 return;
             }
 
-            // 3. Configuración y Construcción del Email
-            const emailDestino = "polvoronesmairena.elpatriarca@gmail.com"; // CAMBIAR
-            const asunto = `NUEVO PEDIDO de: ${nombre}`;
-            const totalPedido = calcularTotal();
+            let totalNumericoPuro = 0;
+            cesta.forEach(item => totalNumericoPuro += item.precio);
+            const totalGSHEET = totalNumericoPuro.toFixed(2);
 
-            // 4. Crear el cuerpo del mensaje, incluyendo los datos del formulario
-            let cuerpoMensaje = "--- DATOS DEL CLIENTE ---\n";
-            cuerpoMensaje += `Nombre: ${nombre}\n`;
-            cuerpoMensaje += `Teléfono: ${telefono}\n`;
-            cuerpoMensaje += `Dirección/Notas: ${direccion}\n\n`;
-
-            cuerpoMensaje += "--- RESUMEN DEL PEDIDO ---\n";
+            let resumenTexto = "--- RESUMEN DEL PEDIDO ---\n";
             cesta.forEach(item => {
-                cuerpoMensaje += `- ${item.titulo} (${item.precioFormato})\n`;
+                resumenTexto += `- ${item.titulo} (${item.precioFormato})\n`;
             });
-            cuerpoMensaje += `\n*TOTAL estimado: ${totalPedido} €*\n\n`;
-            cuerpoMensaje += "Gracias por el pedido. Por favor, revisad los datos de envío.";
+            resumenTexto += `\nTOTAL: ${totalGSHEET} €`;
 
-            // 5. Generar y Abrir el enlace mailto:
-            const mensajeCodificado = encodeURIComponent(cuerpoMensaje);
-            const asuntoCodificado = encodeURIComponent(asunto);
-            const mailtoLink = `mailto:${emailDestino}?subject=${asuntoCodificado}&body=${mensajeCodificado}`;
+            const URL_DEL_SCRIPT = 'https://script.google.com/macros/s/AKfycbyU4kXQcm5EW58sirhFKB3qsry3pmCqUDxAWQYGRC-Eu3uPQ4o2gez1sY6gLsEHCQMe4A/exec';
 
-            window.open(mailtoLink, '_blank');
-
-            // 6. Finalizar
-            vaciarCesta();
-            alert("Tu cliente de correo se abrirá con todos los datos. ¡No olvides enviarlo!");
+            // 🚀 Usa JSON y no-cors OFF, pero con try/catch para fallback
+            fetch(URL_DEL_SCRIPT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre,
+                    telefono,
+                    direccion,
+                    resumenTexto,
+                    totalGSheet: totalGSHEET
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert("✅ Pedido enviado correctamente.");
+                        vaciarCesta();
+                        cerrarPopup();
+                    } else {
+                        alert("❌ Error del servidor: " + data.message);
+                    }
+                })
+                .catch(err => {
+                    // fallback silencioso en caso de CORS
+                    console.warn("CORS bloqueado, intentando modo no-cors...");
+                    fetch(URL_DEL_SCRIPT, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            nombre,
+                            telefono,
+                            direccion,
+                            resumenTexto,
+                            totalGSheet: totalGSHEET
+                        })
+                    });
+                    alert("✅ Pedido enviado (sin confirmar respuesta). Verifica en tu Google Sheet.");
+                    vaciarCesta();
+                    cerrarPopup();
+                });
         }
+
 
     </script>
 </body>
