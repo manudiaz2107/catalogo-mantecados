@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <title>Catálogo Mantecados Navideño | Dulces Selectos</title>
+    <title>Catálogo Mantecados Navideño</title>
     <style>
         /* --- VARIABLES y RESET --- */
         :root {
@@ -694,7 +694,7 @@
     </section>
 
     <footer>
-        <p>&#169; 2025 Dulces Selectos. Todos los derechos reservados. &#127873;</p>
+        <p>&#169; 2025. Todos los derechos reservados. &#127873;</p>
     </footer>
 
     <div class="nieve" id="nieve"></div>
@@ -1190,6 +1190,20 @@
                     vaciarCesta();
                     cerrarPopup();
                 });
+        }
+
+        function eliminarItem(index) {
+            // 1. Quitar el elemento del array 'cesta' usando el índice
+            // splice(índice, cantidad_a_eliminar)
+            cesta.splice(index, 1);
+
+            // 2. Actualizar el contador de la cesta en el icono (si lo tienes)
+            actualizarContadorCesta();
+
+            // 3. Volver a mostrar el contenido de la cesta para que se vea el cambio
+            // Se llama a mostrarCesta() para regenerar el HTML de la pop-up
+            // con el array 'cesta' modificado.
+            mostrarCesta();
         }
 
 
